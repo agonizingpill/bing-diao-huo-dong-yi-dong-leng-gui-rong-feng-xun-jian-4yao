@@ -29,6 +29,10 @@
       "label": "人工复核指向"
     },
     {
+      "name": "valid",
+      "label": "评分有效"
+    },
+    {
       "name": "token",
       "label": "计算凭据"
     }

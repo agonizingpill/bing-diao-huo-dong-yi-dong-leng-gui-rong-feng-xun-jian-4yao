@@ -7,6 +7,7 @@ class ReserveSwap(BaseModel):
     code: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=160)]
     seam: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=160)]
     target: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=160)]
+    target_seam: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=160)]
     handover: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=160)]
 
 

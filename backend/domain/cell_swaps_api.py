@@ -13,7 +13,7 @@ router = APIRouter()
 @router.get('/cell_swaps')
 def list_cell_swaps(user=Depends(actor)):
     with transaction() as conn:
-        return scan(conn, cell_swaps)
+        return service.list_swaps(conn)
 
 
 @router.post('/cell_swaps/reserve-swap')

@@ -8,14 +8,16 @@
 
 - 冰雕柜格档位 `cold_cells`，字段为 `duty`（功能区）、`authorized`（点位已授权）、`free_slots`（余位）、`closed`（停止使用）。模型约束位于 `backend/domain/cold_cells_model.py`，规则位于 `cold_cells_service.py`。
 - 空载与冰雕实测 `thaw_samples`，字段为 `cell`（柜格）、`mass_kg`（冰灯质量 kg）、`melt`（接缝偏移 mm）、`drift`（相邻窗温漂）、`empty_test`（空载测试）、`piece`（冰雕码）。模型约束位于 `backend/domain/thaw_samples_model.py`，规则位于 `thaw_samples_service.py`。
-- 融缝稠密程度 `seam_maps`，字段为 `sample`（冰雕实测）、`density`（局部相对密度）、`threshold`（基线门槛）、`decision`（人工复核指向）、`token`（计算凭据）。模型约束位于 `backend/domain/seam_maps_model.py`，规则位于 `seam_maps_service.py`。
-- 冰雕跨格互换单 `cell_swaps`，字段为 `seam`（融缝复核）、`target`（目标柜格）、`handover`（现场双签）、`state`（状态）。模型约束位于 `backend/domain/cell_swaps_model.py`，规则位于 `cell_swaps_service.py`。
+- 融缝稠密程度 `seam_maps`，字段为 `sample`（冰雕实测）、`density`（局部相对密度）、`threshold`（基线门槛）、`decision`（人工复核指向）、`token`（计算凭据）、`valid`（评分有效）。模型约束位于 `backend/domain/seam_maps_model.py`，规则位于 `seam_maps_service.py`。
+- 冰雕跨格互换单 `cell_swaps`，字段为 `seam`（融缝复核）、`target`（目标柜格）、`target_seam`（目标格评分）、`handover`（现场双签）、`state`（状态）、`hold`（停办原因）。模型约束位于 `backend/domain/cell_swaps_model.py`，规则位于 `cell_swaps_service.py`。
 
 团队为模拟的10 人冰雕节搭建组，管理流动冷柜内的待布景单位。
 
 搬移工从散页温度簿找接缝问题。空载试验容易掺进带载参考，脱模格和成品位有人误用，换格后空位常记在错误柜格。
 
 带载接缝观测进入同柜格比较，两位搬移人确认格签，组长据此更新可用位。
+
+换格预留要求原柜格融缝异常且目标柜格用本格带载历史打分合格。晚到的带载记录入账后，涉及该格的旧评分失效，重算前暂停预留和交接，已占的位留给原单；重算通过就恢复交接，换格条件不再满足就退还目标位，重试不重复退位。补录与回执并发时以先办成的为准，已搬完的单保留当时的双格评分。换格页面显示评分和停办原因。
 
 ### 一天的业务操作
 

@@ -10,4 +10,5 @@ seam_maps = Table('seam_maps', metadata,
     Column('threshold', Float, nullable=False),
     Column('decision', String(160), nullable=False),
     Column('token', String(64), nullable=False, unique=True),
+    Column('valid', Boolean, nullable=False, default=True),
 )
